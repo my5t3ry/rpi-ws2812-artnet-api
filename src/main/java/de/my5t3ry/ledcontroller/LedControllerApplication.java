@@ -20,7 +20,7 @@ public class LedControllerApplication {
         255,      // brightness
         0,      // pwm channel
         false,        // invert
-        LedStripType.WS2811_STRIP_RGB,    // Strip type
+        LedStripType.WS2811_STRIP_GBR,    // Strip type
         false    // clear on exit
     );
     for (int i = 0; i < ledsCount; i++) {

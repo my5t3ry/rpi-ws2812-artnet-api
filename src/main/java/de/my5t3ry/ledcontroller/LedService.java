@@ -20,7 +20,7 @@ public class LedService {
   private Ws281xLedStrip strip;
 
   @PostConstruct
-  public void init() {
+  public void init() throws IllegalAccessException {
     strip = new Ws281xLedStrip(
         ledsCount,       // leds
         18,          // Using pin 10 to do SPI, which should allow non-sudo access
@@ -32,12 +32,12 @@ public class LedService {
         LedStripType.WS2811_STRIP_RGB,    // Strip type
         false    // clear on exit
     );
-    setControlEvent(new LedControlEvent(Color.WHITE, 255));
+    setControlEvent(new LedControlEvent("WHITE", 255));
   }
 
-  public void setControlEvent(final LedControlEvent event) {
+  public void setControlEvent(final LedControlEvent event) throws IllegalAccessException {
     for (int i = 0; i < ledsCount; i++) {
-      strip.setPixel(i, event.getColor());
+      strip.setPixel(i, getStaticColorsForString(event.getColor()));
     }
     strip.setBrightness(event.getBrightness());
     strip.render();

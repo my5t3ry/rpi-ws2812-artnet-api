@@ -1,0 +1,1 @@
+curl --header "Content-Type: application/json" \ --request POST \ --data '{"color":"RED","brightness":"255"}' \ http://localhost:3000/api/login

@@ -43,7 +43,7 @@ public class LedService {
     strip.render();
   }
 
-  public static Color getStaticColorsForString(final String color) throws IllegalStateException {
+  public static Color getStaticColorsForString(final String color) {
     final List<Field> colors = Arrays.stream(Color.class.getDeclaredFields()).filter(f ->
         Modifier.isStatic(f.getModifiers())).collect(toList()).stream()
         .filter(curColor -> curColor.getName().equals(color)).collect(

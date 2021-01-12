@@ -20,7 +20,7 @@ public class LedService {
   private Ws281xLedStrip strip;
 
   @PostConstruct
-  public void init() throws IllegalAccessException {
+  public void init() {
     strip = new Ws281xLedStrip(
         ledsCount,       // leds
         18,          // Using pin 10 to do SPI, which should allow non-sudo access
@@ -35,7 +35,7 @@ public class LedService {
     setControlEvent(new LedControlEvent("WHITE", 255));
   }
 
-  public void setControlEvent(final LedControlEvent event) throws IllegalAccessException {
+  public void setControlEvent(final LedControlEvent event) {
     for (int i = 0; i < ledsCount; i++) {
       strip.setPixel(i, getStaticColorsForString(event.getColor()));
     }
@@ -43,7 +43,7 @@ public class LedService {
     strip.render();
   }
 
-  public static Color getStaticColorsForString(final String color) throws IllegalAccessException {
+  public static Color getStaticColorsForString(final String color) throws IllegalStateException {
     final List<Field> colors = Arrays.stream(Color.class.getDeclaredFields()).filter(f ->
         Modifier.isStatic(f.getModifiers())).collect(toList()).stream()
         .filter(curColor -> curColor.getName().equals(color)).collect(
@@ -53,7 +53,13 @@ public class LedService {
           .format("Unexpected matching colors found for ['%s']. Found ['%s'], expected 1", color,
               colors.size()));
     }
-    return (Color) colors.get(0).get(null);
+    try {
+      return (Color) colors.get(0).get(null);
+    } catch (IllegalAccessException e) {
+      throw new IllegalStateException(String
+          .format("Could not access field ['%s']. With msg ['%s']", colors.get(0).getName(),
+              e.getMessage()));
+    }
   }
 
 }

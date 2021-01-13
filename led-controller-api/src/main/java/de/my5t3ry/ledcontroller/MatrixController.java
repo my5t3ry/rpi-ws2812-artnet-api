@@ -92,5 +92,6 @@ public class MatrixController {
     } else {
       strip.setBrightness(0);
     }
+    strip.render();
   }
 }

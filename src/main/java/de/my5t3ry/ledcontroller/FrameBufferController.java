@@ -23,6 +23,8 @@ public class FrameBufferController {
   private Ws281xLedStrip strip;
   private List<byte[]> frameBuffer;
 
+  private boolean patching = false;
+
   @PostConstruct
   @Async
   public void init() throws InterruptedException {
@@ -73,11 +75,15 @@ public class FrameBufferController {
 
   public void addFrame(final byte[] frame) {
     frameBuffer.add(frame);
+    if (patching == false) {
+      patchArtNetData();
+    }
   }
 
 
-  public void patchArtNetData() throws InterruptedException {
-    if (!frameBuffer.isEmpty()) {
+  public void patchArtNetData() {
+    while (!frameBuffer.isEmpty()) {
+      this.patching = true;
       final byte[] curBuffer = frameBuffer.get(0);
       frameBuffer.remove(0);
       for (int i = 0; i < ledsCount; i++) {
@@ -87,10 +93,10 @@ public class FrameBufferController {
         strip.setPixel(i, color);
       }
       strip.render();
+      if (!frameBuffer.isEmpty()) {
+        this.patchArtNetData();
+      }
     }
-    Thread.sleep(25);
-    patchArtNetData();
-
-
+    patching = false;
   }
 }

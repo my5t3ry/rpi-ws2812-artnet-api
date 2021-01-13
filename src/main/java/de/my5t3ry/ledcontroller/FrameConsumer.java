@@ -32,19 +32,15 @@ public class FrameConsumer implements Runnable {
   @SneakyThrows
   @Override
   public void run() {
-    while (true) {
-      if (!frameBuffer.isEmpty()) {
-        final byte[] curBuffer = frameBuffer.take();
-        frameBuffer.remove(0);
-        for (int i = 0; i < ledsCount; i++) {
-          final Color color = new Color(curBuffer[(i * 3) + 138] & 0xFF,
-              curBuffer[(i * 3) + 139] & 0xFF,
-              curBuffer[(i * 3) + 140] & 0xFF);
-          strip.setPixel(i, color);
-        }
-        strip.render();
-      }
-      Thread.sleep(200); }
+    final byte[] curBuffer = frameBuffer.take();
+    frameBuffer.remove(0);
+    for (int i = 0; i < ledsCount; i++) {
+      final Color color = new Color(curBuffer[(i * 3) + 138] & 0xFF,
+          curBuffer[(i * 3) + 139] & 0xFF,
+          curBuffer[(i * 3) + 140] & 0xFF);
+      strip.setPixel(i, color);
+    }
+    strip.render();
   }
 
   // standard constructors

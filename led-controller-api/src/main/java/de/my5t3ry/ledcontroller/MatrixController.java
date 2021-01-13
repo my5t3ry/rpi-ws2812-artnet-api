@@ -34,7 +34,7 @@ public class MatrixController {
         255,      // brightness
         0,      // pwm channel
         false,        // invert
-        LedStripType.WS2811_STRIP_GRB,    // Strip type
+        LedStripType.WS2811_STRIP_RGB,    // Strip type
         false    // clear on exit
     );
     final FrameBufferDispatcher frameBufferDispatcher = new FrameBufferDispatcher(frameBuffer,
@@ -44,6 +44,7 @@ public class MatrixController {
   }
 
   public void setControlEvent(final LedControlEvent event) {
+    log.info(String.format("Setting color to [%s]", event.getColor().toString()));
     for (int i = 0; i < ledsCount; i++) {
       strip.setPixel(i, event.getColor());
     }

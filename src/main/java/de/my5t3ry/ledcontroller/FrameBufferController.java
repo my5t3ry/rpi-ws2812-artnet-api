@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedTransferQueue;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TransferQueue;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
@@ -31,6 +32,7 @@ public class FrameBufferController {
     setControlEvent(new LedControlEvent("WHITE", 255));
     ExecutorService exService = Executors.newFixedThreadPool(1);
     exService.execute(frameConsumer);
+    exService.awaitTermination(5000, TimeUnit.MILLISECONDS);
   }
 
   public void setControlEvent(final LedControlEvent event) {

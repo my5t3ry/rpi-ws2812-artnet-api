@@ -40,7 +40,6 @@ public class FrameBufferController {
         false    // clear on exit
     );
     setControlEvent(new LedControlEvent("WHITE", 255));
-    patchArtNetData();
   }
 
 

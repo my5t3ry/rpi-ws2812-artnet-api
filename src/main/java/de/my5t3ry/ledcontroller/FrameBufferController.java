@@ -78,7 +78,7 @@ public class FrameBufferController {
 
   public void patchArtNetData() throws InterruptedException {
     if (frameBuffer.isEmpty()) {
-      Thread.sleep(5);
+      Thread.sleep(1000);
       patchArtNetData();
     } else {
       final byte[] curBuffer = frameBuffer.get(0);

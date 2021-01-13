@@ -1,0 +1,6 @@
+[submodule "rpi-ws281x-java"]
+	path = rpi-ws281x-java
+	url = git@github.com:my5t3ry/rpi-ws281x-java.git
+[submodule "pixelcontroller"]
+	path = pixelcontroller
+	url = git@github.com:my5t3ry/pixelcontroller.git

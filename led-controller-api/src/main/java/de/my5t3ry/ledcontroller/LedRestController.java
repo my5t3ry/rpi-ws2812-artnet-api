@@ -25,7 +25,6 @@ public class LedRestController {
     return new ResponseEntity<>(HttpStatus.OK);
   }
 
-
   @PostMapping("/toggle-power")
   public ResponseEntity togglePower() {
     matrixController.togglePower();

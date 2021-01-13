@@ -4,7 +4,6 @@ import ch.bildspur.artnet.ArtNetClient;
 import ch.bildspur.artnet.events.ArtNetServerEventAdapter;
 import ch.bildspur.artnet.packets.ArtNetPacket;
 import ch.bildspur.artnet.packets.PacketType;
-import javax.annotation.PostConstruct;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +18,8 @@ public class ArtNetController {
   @Autowired
   private MatrixController matrixController;
 
-  @PostConstruct
-  public void init() {
-    artnet = new ArtNetClient();
-  }
-
   public void startArtNetClient() {
+    artnet = new ArtNetClient();
     artnet.getArtNetServer().addListener(
         new ArtNetServerEventAdapter() {
           @SneakyThrows

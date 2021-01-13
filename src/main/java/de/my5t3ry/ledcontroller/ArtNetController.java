@@ -3,6 +3,7 @@ package de.my5t3ry.ledcontroller;
 import ch.bildspur.artnet.ArtNetClient;
 import ch.bildspur.artnet.events.ArtNetServerEventAdapter;
 import ch.bildspur.artnet.packets.ArtNetPacket;
+import ch.bildspur.artnet.packets.PacketType;
 import javax.annotation.PostConstruct;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -27,7 +28,9 @@ public class ArtNetController {
           @Override
           public void artNetPacketReceived(ArtNetPacket packet) {
 //            log.info(String.format("package type {%s} ", packet.getType().name()));
-            frameBufferController.addFrame(packet.getData());
+            if (packet.getType().equals(PacketType.ART_OUTPUT)) {
+              frameBufferController.addFrame(packet.getData());
+            }
           }
         });
 

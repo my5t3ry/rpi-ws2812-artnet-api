@@ -5,14 +5,10 @@ import com.github.mbelling.ws281x.Color;
 import com.github.mbelling.ws281x.LedStripType;
 import com.github.mbelling.ws281x.Ws281xLedStrip;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.TransferQueue;
-import java.util.concurrent.atomic.AtomicInteger;
-import lombok.SneakyThrows;
 
 public class FrameConsumer extends Thread {
 
   private BlockingQueue<byte[]> frameBuffer;
-
 
 
   public FrameConsumer(BlockingQueue<byte[]> frameBuffer) {
@@ -33,25 +29,22 @@ public class FrameConsumer extends Thread {
   private static final int ledsCount = 96;
   private Ws281xLedStrip strip;
 
-  @SneakyThrows
   public void run() {
     while (true) {
       try {
-        final byte[] curBuffer = frameBuffer.take();
-        for (int i = 0; i < ledsCount; i++) {
-          final Color color = new Color(curBuffer[(i * 3) + 138] & 0xFF,
-              curBuffer[(i * 3) + 139] & 0xFF,
-              curBuffer[(i * 3) + 140] & 0xFF);
-          strip.setPixel(i, color);
+        if (!frameBuffer.isEmpty()) {
+          final byte[] curBuffer = frameBuffer.take();
+          for (int i = 0; i < ledsCount; i++) {
+            final Color color = new Color(curBuffer[(i * 3) + 138] & 0xFF,
+                curBuffer[(i * 3) + 139] & 0xFF,
+                curBuffer[(i * 3) + 140] & 0xFF);
+            strip.setPixel(i, color);
+          }
+          strip.render();
         }
-        strip.render();
-
       } catch (InterruptedException ie) {
         ie.printStackTrace();
       }
     }
-
   }
-
-  // standard constructors
 }

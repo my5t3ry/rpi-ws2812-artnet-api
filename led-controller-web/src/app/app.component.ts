@@ -31,13 +31,29 @@ export class AppComponent {
   }
 
   setColor() {
+    let rgbaObject = this.convertRGBtoOBJ(this.color);
     let event = {
-      color: this.hexToRgb(this.color),
-      brightness: 255
+      color: {
+        red: rgbaObject["red"],
+        green: rgbaObject["green"],
+        blue: rgbaObject["blue"],
+      },
+      brightness: Math.round(rgbaObject["alpha"] * 255)
     }
     this.http.post(this.api, event).toPromise().then(value => {
       console.log(value);
     })
+  }
+
+  convertRGBtoOBJ(colorString): object {
+    const rgbKeys = ['red', 'green', 'blue', 'alpha'];
+    let rgbObj = {};
+    let color = colorString.replace(/^rgba?\(|\s+|\)$/g, '').split(',');
+
+    for (let i in rgbKeys)
+      rgbObj[rgbKeys[i]] = color[i] || 1;
+
+    return rgbObj;
   }
 
   toggleArtNetNode() {

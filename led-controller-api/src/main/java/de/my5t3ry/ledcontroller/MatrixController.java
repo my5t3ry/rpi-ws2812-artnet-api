@@ -13,10 +13,12 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 @Component
+@Slf4j
 public class MatrixController {
 
 
@@ -84,6 +86,7 @@ public class MatrixController {
 
 
   public void togglePower() {
+    log.info(String.format("Current brightness [%s]", strip.getBrightness()));
     if (strip.getBrightness() == 0) {
       strip.setBrightness(255);
     } else {

@@ -44,6 +44,7 @@ public class FrameConsumer implements Runnable {
         }
         strip.render();
       }
+      Thread.sleep(200);
     }
   }
 

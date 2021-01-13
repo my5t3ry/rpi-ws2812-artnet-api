@@ -8,7 +8,7 @@ import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
@@ -20,7 +20,7 @@ public class FrameBufferController {
 
 
   private boolean patching = false;
-  BlockingQueue<byte[]> frameBuffer = new SynchronousQueue<>();
+  BlockingQueue<byte[]> frameBuffer = new LinkedBlockingDeque<>();
 
   public AtomicInteger frameBufferSize
       = new AtomicInteger();

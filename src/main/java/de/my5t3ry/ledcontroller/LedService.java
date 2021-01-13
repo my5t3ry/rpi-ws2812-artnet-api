@@ -27,11 +27,11 @@ public class LedService {
         ledsCount,       // leds
         18,          // Using pin 10 to do SPI, which should allow non-sudo access
         800000,  // freq hz
-        0,            // dma
+        10,            // dma
         255,      // brightness
         0,      // pwm channel
         false,        // invert
-        LedStripType.WS2811_STRIP_RGB,    // Strip type
+        LedStripType.WS2811_STRIP_GRB,    // Strip type
         false    // clear on exit
     );
     setControlEvent(new LedControlEvent("WHITE", 255));

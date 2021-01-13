@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class LedService {
 
-  private static final int ledsCount = 80;
+  private static final int ledsCount = 96;
   private Ws281xLedStrip strip;
 
   @PostConstruct

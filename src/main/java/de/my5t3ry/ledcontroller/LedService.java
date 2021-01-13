@@ -47,11 +47,10 @@ public class LedService {
 
   public void patchArtNetData(final byte[] data) {
     for (int i = 0; i < ledsCount; i++) {
-      final int r = data[i] & 0xFF;
-      final int g = data[i + 1] & 0xFF;
-      final int b = data[i + 2] & 0xFF;
+      final Color color = new Color(data[i] & 0xFF, data[i + 1] & 0xFF, data[i + 1] & 0xFF);
+      strip.setPixel(i, color);
 
-      log.info(String.format("R: " + r + " Green: " + g + " Blue: " + b));
+      log.info(String.format("pixel {%s} to: [''%s]",i,color.toString() ));
     }
   }
 

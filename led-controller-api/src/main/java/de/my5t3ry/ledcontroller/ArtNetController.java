@@ -17,7 +17,7 @@ public class ArtNetController {
   private ArtNetClient artnet;
 
   @Autowired
-  private FrameBufferController frameBufferController;
+  private MatrixController matrixController;
 
   @PostConstruct
   public void init() {
@@ -29,7 +29,7 @@ public class ArtNetController {
           public void artNetPacketReceived(ArtNetPacket packet) {
 //            log.info(String.format("package type {%s} ", packet.getType().name()));
             if (packet.getType().equals(PacketType.ART_OUTPUT)) {
-              frameBufferController.addFrame(packet.getData());
+              matrixController.addFrame(packet.getData());
             }
           }
         });

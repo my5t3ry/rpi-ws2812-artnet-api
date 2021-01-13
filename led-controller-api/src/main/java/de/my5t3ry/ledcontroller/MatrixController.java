@@ -26,7 +26,7 @@ public class MatrixController {
   private Ws281xLedStrip strip;
 
 
-  private boolean patching = false;
+  private boolean power = true;
   BlockingQueue<byte[]> frameBuffer = new LinkedBlockingDeque<>();
 
 
@@ -58,7 +58,6 @@ public class MatrixController {
     strip.render();
   }
 
-
   public static Color getStaticColorsForString(final String color) {
     final List<Field> colors = Arrays.stream(Color.class.getDeclaredFields()).filter(f ->
         Modifier.isStatic(f.getModifiers())).collect(toList()).stream()
@@ -84,13 +83,13 @@ public class MatrixController {
 
 
   public void togglePower() {
-    log.info(String.format("Current brightness [%s]", strip.getBrightness()));
-    if (strip.getBrightness() == 0) {
+    if (!power) {
       strip.setBrightness(255);
+      power =true;
     } else {
       strip.setBrightness(0);
+      power =true;
     }
     strip.render();
-    log.info(String.format("New brightness [%s]", strip.getBrightness()));
   }
 }

@@ -88,9 +88,9 @@ public class FrameBufferController {
       }
       strip.render();
     }
+    Thread.sleep(25);
     patchArtNetData();
 
-    Thread.sleep(25);
 
   }
 }

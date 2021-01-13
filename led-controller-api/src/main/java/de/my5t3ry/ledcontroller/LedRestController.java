@@ -33,9 +33,4 @@ public class LedRestController {
   }
 
 
-  @PostMapping("/toggle-artnet")
-  public ResponseEntity toggleArtNet() {
-    artNetController.toggleClient();
-    return new ResponseEntity<>(HttpStatus.OK);
-  }
 }

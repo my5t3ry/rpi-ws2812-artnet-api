@@ -4,6 +4,7 @@ import ch.bildspur.artnet.ArtNetClient;
 import ch.bildspur.artnet.events.ArtNetServerEventAdapter;
 import ch.bildspur.artnet.packets.ArtNetPacket;
 import ch.bildspur.artnet.packets.PacketType;
+import java.util.Objects;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,7 @@ public class ArtNetController {
   }
 
   public void toggleClient() {
-    if (artnet.isRunning()) {
+    if (Objects.nonNull(artnet) && artnet.isRunning()) {
       artnet.stop();
     } else {
       startArtNetClient();

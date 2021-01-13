@@ -7,21 +7,24 @@ import com.github.mbelling.ws281x.LedStripType;
 import com.github.mbelling.ws281x.Ws281xLedStrip;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Component;
 
-@Service
-@Slf4j
-public class LedService {
+@Component
+public class FrameBufferController {
+
 
   private static final int ledsCount = 96;
   private Ws281xLedStrip strip;
+  private List<byte[]> frameBuffer;
 
   @PostConstruct
+  @Async
   public void init() {
     strip = new Ws281xLedStrip(
         ledsCount,       // leds
@@ -37,7 +40,9 @@ public class LedService {
     setControlEvent(new LedControlEvent("WHITE", 255));
   }
 
+
   public void setControlEvent(final LedControlEvent event) {
+    frameBuffer = new ArrayList<>();
     for (int i = 0; i < ledsCount; i++) {
       strip.setPixel(i, getStaticColorsForString(event.getColor()));
     }
@@ -45,16 +50,6 @@ public class LedService {
     strip.render();
   }
 
-  public void patchArtNetData(final byte[] data) {
-    for (int i = 0; i < ledsCount; i++) {
-      final Color color = new Color(data[(i * 3) + 138] & 0xFF,data[(i * 3) + 139] & 0xFF ,
-          data[(i * 3) + 140] & 0xFF);
-      strip.setPixel(i, color);
-      ;
-    }
-    strip.render();
-
-  }
 
   public static Color getStaticColorsForString(final String color) {
     final List<Field> colors = Arrays.stream(Color.class.getDeclaredFields()).filter(f ->
@@ -75,4 +70,26 @@ public class LedService {
     }
   }
 
+  public void addFrame(final byte[] frame) {
+    frameBuffer.add(frame);
+  }
+
+
+  public void patchArtNetData() throws InterruptedException {
+    if (frameBuffer.isEmpty()) {
+      Thread.sleep(5);
+      patchArtNetData();
+    } else {
+      final byte[] curBuffer = frameBuffer.get(0);
+      frameBuffer.remove(0);
+      for (int i = 0; i < ledsCount; i++) {
+        final Color color = new Color(curBuffer[(i * 3) + 138] & 0xFF,
+            curBuffer[(i * 3) + 139] & 0xFF,
+            curBuffer[(i * 3) + 140] & 0xFF);
+        strip.setPixel(i, color);
+      }
+      strip.render();
+      patchArtNetData();
+    }
+  }
 }

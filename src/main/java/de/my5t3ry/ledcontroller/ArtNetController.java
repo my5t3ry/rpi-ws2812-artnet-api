@@ -15,7 +15,7 @@ public class ArtNetController {
   private ArtNetClient artnet;
 
   @Autowired
-  private LedService ledService;
+  private FrameBufferController frameBufferController;
 
   @PostConstruct
   public void init() {
@@ -24,8 +24,8 @@ public class ArtNetController {
         new ArtNetServerEventAdapter() {
           @Override
           public void artNetPacketReceived(ArtNetPacket packet) {
-            log.info(String.format("package type {%s} " , packet.getType().name()));
-            ledService.patchArtNetData(packet.getData());
+            log.info(String.format("package type {%s} ", packet.getType().name()));
+            frameBufferController.addFrame(packet.getData());
           }
         });
 

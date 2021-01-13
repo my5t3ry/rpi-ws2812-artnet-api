@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class LedRestController {
 
   @Autowired
-  private LedService ledService;
+  private FrameBufferController frameBufferController;
 
   @PostMapping()
   public ResponseEntity save(@RequestBody LedControlEvent event) {
-    ledService.setControlEvent(event);
+    frameBufferController.setControlEvent(event);
     return new ResponseEntity<>(HttpStatus.OK);
   }
 }

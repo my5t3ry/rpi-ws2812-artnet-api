@@ -27,7 +27,7 @@ public class LedService {
         ledsCount,       // leds
         18,          // Using pin 10 to do SPI, which should allow non-sudo access
         800000,  // freq hz
-        10,            // dma
+        0,            // dma
         255,      // brightness
         0,      // pwm channel
         false,        // invert
@@ -49,7 +49,7 @@ public class LedService {
     for (int i = 0; i < ledsCount; i++) {
       final Color color = new Color(data[i] & 0xFF, data[i + 1] & 0xFF, data[i + 1] & 0xFF);
       strip.setPixel(i, color);
-      log.info(String.format("pixel {%s} to: [''%s]",i,color.toString() ));
+      log.info(String.format("pixel {%s} to: [''%s]", i, color.toString()));
     }
     strip.render();
 

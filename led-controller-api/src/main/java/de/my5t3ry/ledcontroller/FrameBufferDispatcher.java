@@ -20,16 +20,14 @@ public class FrameBufferDispatcher extends Thread {
   public void run() {
     while (true) {
       try {
-        if (!frameBuffer.isEmpty()) {
-          final byte[] curBuffer = frameBuffer.take();
-          for (int i = 0; i < strip.getLedsCount(); i++) {
-            final Color color = new Color(curBuffer[(i * 3) + 18] & 0xFF,
-                curBuffer[(i * 3) + 19] & 0xFF,
-                curBuffer[(i * 3) + 20] & 0xFF);
-            strip.setPixel(i, color);
-          }
-          strip.render();
+        final byte[] curBuffer = frameBuffer.take();
+        for (int i = 0; i < strip.getLedsCount(); i++) {
+          final Color color = new Color(curBuffer[(i * 3) + 18] & 0xFF,
+              curBuffer[(i * 3) + 19] & 0xFF,
+              curBuffer[(i * 3) + 20] & 0xFF);
+          strip.setPixel(i, color);
         }
+        strip.render();
       } catch (InterruptedException ie) {
         ie.printStackTrace();
       }

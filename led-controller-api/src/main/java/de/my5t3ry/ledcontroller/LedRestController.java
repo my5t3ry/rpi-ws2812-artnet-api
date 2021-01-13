@@ -16,6 +16,8 @@ public class LedRestController {
 
   @Autowired
   private MatrixController matrixController;
+  @Autowired
+  private ArtNetController artNetController;
 
   @PostMapping()
   public ResponseEntity save(@RequestBody LedControlEvent event) {
@@ -24,9 +26,16 @@ public class LedRestController {
   }
 
 
-  @PostMapping("/power")
+  @PostMapping("/toggle-power")
   public ResponseEntity togglePower() {
     matrixController.togglePower();
+    return new ResponseEntity<>(HttpStatus.OK);
+  }
+
+
+  @PostMapping("/toggle-artnet")
+  public ResponseEntity toggleArtNet() {
+    artNetController.toggleClient();
     return new ResponseEntity<>(HttpStatus.OK);
   }
 }

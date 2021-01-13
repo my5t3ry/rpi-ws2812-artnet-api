@@ -18,25 +18,23 @@ public class MatrixController {
   private static final int ledsCount = 96;
   private Ws281xLedStrip strip;
 
-
   private boolean power = true;
-  private Color currentColor = Color.BLACK;
+  private Color currentColor = Color.WHITE;
   BlockingQueue<byte[]> frameBuffer = new LinkedBlockingDeque<>();
-
 
   @PostConstruct
   @Async
   public void init() {
     strip = new Ws281xLedStrip(
-        ledsCount,       // leds
-        18,          // Using pin 10 to do SPI, which should allow non-sudo access
-        800000,  // freq hz
-        10,            // dma
-        255,      // brightness
-        0,      // pwm channel
-        false,        // invert
-        LedStripType.WS2811_STRIP_RGB,    // Strip type
-        false    // clear on exit
+        ledsCount,
+        18,
+        800000,
+        10,
+        255,
+        0,
+        false,
+        LedStripType.WS2811_STRIP_RGB,
+        false
     );
     final FrameBufferDispatcher frameBufferDispatcher = new FrameBufferDispatcher(frameBuffer,
         strip);
@@ -54,17 +52,16 @@ public class MatrixController {
     strip.render();
   }
 
-
   public void addFrame(final byte[] frame) throws InterruptedException {
     frameBuffer.put(frame);
   }
 
   public void togglePower() {
     if (!power) {
-      setControlEvent(new LedControlEvent(Color.WHITE, 255));
+      setControlEvent(new LedControlEvent(currentColor, 255));
       power = true;
     } else {
-      setControlEvent(new LedControlEvent(currentColor, 255));
+      setControlEvent(new LedControlEvent(Color.BLACK, 255));
       power = false;
     }
     strip.render();

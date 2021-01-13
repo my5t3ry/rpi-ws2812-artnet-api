@@ -22,18 +22,27 @@ public class ArtNetController {
   @PostConstruct
   public void init() {
     artnet = new ArtNetClient();
+  }
+
+  public void startArtNetClient() {
     artnet.getArtNetServer().addListener(
         new ArtNetServerEventAdapter() {
           @SneakyThrows
           @Override
           public void artNetPacketReceived(ArtNetPacket packet) {
-//            log.info(String.format("package type {%s} ", packet.getType().name()));
             if (packet.getType().equals(PacketType.ART_OUTPUT)) {
               matrixController.addFrame(packet.getData());
             }
           }
         });
-
     artnet.start();
+  }
+
+  public void toggleClient() {
+    if (artnet.isRunning()) {
+      artnet.stop();
+    } else {
+      startArtNetClient();
+    }
   }
 }

@@ -16,7 +16,7 @@ export class AppComponent {
   }
 
   togglePower() {
-    this.http.post(this.api + "/power", null).toPromise().then(value => {
+    this.http.post(this.api + "/toggle-power", null).toPromise().then(value => {
       console.log(value);
     })
   }
@@ -38,5 +38,12 @@ export class AppComponent {
     this.http.post(this.api, event).toPromise().then(value => {
       console.log(value);
     })
+  }
+
+  toggleArtNetNode() {
+    this.http.post(this.api + "/toggle-artnet", null).toPromise().then(value => {
+      console.log(value);
+    })
+
   }
 }

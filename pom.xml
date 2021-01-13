@@ -41,6 +41,11 @@
       <optional>true</optional>
     </dependency>
     <dependency>
+      <groupId>ch.bildspur</groupId>
+      <artifactId>artnet4j</artifactId>
+      <version>0.6.2</version>
+    </dependency>
+    <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
       <scope>test</scope>

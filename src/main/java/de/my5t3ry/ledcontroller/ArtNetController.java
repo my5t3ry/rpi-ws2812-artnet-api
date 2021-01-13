@@ -5,6 +5,7 @@ import ch.bildspur.artnet.events.ArtNetServerEventAdapter;
 import ch.bildspur.artnet.packets.ArtNetPacket;
 import javax.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -13,6 +14,9 @@ public class ArtNetController {
 
   private ArtNetClient artnet;
 
+  @Autowired
+  private LedService ledService;
+
   @PostConstruct
   public void init() {
     artnet = new ArtNetClient();
@@ -20,12 +24,7 @@ public class ArtNetController {
         new ArtNetServerEventAdapter() {
           @Override
           public void artNetPacketReceived(ArtNetPacket packet) {
-            final byte[] data = packet.getData();
-            final int r = data[0] & 0xFF;
-            final int g = data[1] & 0xFF;
-            final int b = data[2] & 0xFF;
-
-            log.info(String.format("R: " +r + " Green: " +g+ " Blue: " +b));
+            ledService.patchArtNetData(packet.getData());
           }
         });
 

@@ -11,9 +11,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Service
+@Slf4j
 public class LedService {
 
   private static final int ledsCount = 80;
@@ -41,6 +43,16 @@ public class LedService {
     }
     strip.setBrightness(event.getBrightness());
     strip.render();
+  }
+
+  public void patchArtNetData(final byte[] data) {
+    for (int i = 0; i < ledsCount; i++) {
+      final int r = data[i] & 0xFF;
+      final int g = data[i + 1] & 0xFF;
+      final int b = data[i + 2] & 0xFF;
+
+      log.info(String.format("R: " + r + " Green: " + g + " Blue: " + b));
+    }
   }
 
   public static Color getStaticColorsForString(final String color) {

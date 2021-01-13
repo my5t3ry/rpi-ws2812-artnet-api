@@ -49,9 +49,10 @@ public class LedService {
     for (int i = 0; i < ledsCount; i++) {
       final Color color = new Color(data[i] & 0xFF, data[i + 1] & 0xFF, data[i + 1] & 0xFF);
       strip.setPixel(i, color);
-
       log.info(String.format("pixel {%s} to: [''%s]",i,color.toString() ));
     }
+    strip.render();
+
   }
 
   public static Color getStaticColorsForString(final String color) {

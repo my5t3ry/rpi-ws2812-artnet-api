@@ -20,6 +20,7 @@ public class MatrixController {
 
 
   private boolean power = true;
+  private Color currentColor = Color.BLACK;
   BlockingQueue<byte[]> frameBuffer = new LinkedBlockingDeque<>();
 
 
@@ -45,6 +46,7 @@ public class MatrixController {
 
   public void setControlEvent(final LedControlEvent event) {
     log.info(String.format("Setting color to [%s]", event.getColor().toString()));
+    currentColor = event.getColor();
     for (int i = 0; i < ledsCount; i++) {
       strip.setPixel(i, event.getColor());
     }
@@ -57,13 +59,12 @@ public class MatrixController {
     frameBuffer.put(frame);
   }
 
-
   public void togglePower() {
     if (!power) {
       setControlEvent(new LedControlEvent(Color.WHITE, 255));
       power = true;
     } else {
-      setControlEvent(new LedControlEvent(Color.BLACK, 255));
+      setControlEvent(new LedControlEvent(currentColor, 255));
       power = false;
     }
     strip.render();

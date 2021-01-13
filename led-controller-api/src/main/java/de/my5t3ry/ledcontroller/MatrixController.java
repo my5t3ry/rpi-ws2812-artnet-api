@@ -32,8 +32,7 @@ public class MatrixController {
 
   @PostConstruct
   @Async
-  public void init() throws InterruptedException {
-
+  public void init()  {
     strip = new Ws281xLedStrip(
         ledsCount,       // leds
         18,          // Using pin 10 to do SPI, which should allow non-sudo access
@@ -45,7 +44,6 @@ public class MatrixController {
         LedStripType.WS2811_STRIP_GRB,    // Strip type
         false    // clear on exit
     );
-
     final FrameBufferDispatcher frameBufferDispatcher = new FrameBufferDispatcher(frameBuffer,
         strip);
     setControlEvent(new LedControlEvent("WHITE", 255));
@@ -93,5 +91,6 @@ public class MatrixController {
       strip.setBrightness(0);
     }
     strip.render();
+    log.info(String.format("New brightness [%s]", strip.getBrightness()));
   }
 }

@@ -50,7 +50,7 @@ public class LedService {
       final Color color = new Color(data[(i * 3) + 138] & 0xFF,data[(i * 3) + 139] & 0xFF ,
           data[(i * 3) + 140] & 0xFF);
       strip.setPixel(i, color);
-//      log.info(String.format("pixel {%s} to: [''%s]", i, color.toString()));
+      ;
     }
     strip.render();
 

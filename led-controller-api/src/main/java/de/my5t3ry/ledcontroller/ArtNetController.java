@@ -1,6 +1,5 @@
 package de.my5t3ry.ledcontroller;
 
-import ch.bildspur.artnet.ArtNetBuffer;
 import ch.bildspur.artnet.ArtNetClient;
 import ch.bildspur.artnet.events.ArtNetServerEventAdapter;
 import ch.bildspur.artnet.packets.ArtNetPacket;
@@ -21,7 +20,7 @@ public class ArtNetController {
   private MatrixController matrixController;
 
   public void startArtNetClient() {
-    artnet = new ArtNetClient(new ArtNetBuffer(), 6000, 6000);
+    artnet = new ArtNetClient();
     artnet.getArtNetServer().addListener(
         new ArtNetServerEventAdapter() {
           @SneakyThrows

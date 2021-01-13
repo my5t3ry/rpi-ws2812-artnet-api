@@ -77,10 +77,7 @@ public class FrameBufferController {
 
 
   public void patchArtNetData() throws InterruptedException {
-    if (frameBuffer.isEmpty()) {
-      Thread.sleep(1000);
-      patchArtNetData();
-    } else {
+    if (!frameBuffer.isEmpty()) {
       final byte[] curBuffer = frameBuffer.get(0);
       frameBuffer.remove(0);
       for (int i = 0; i < ledsCount; i++) {
@@ -90,7 +87,10 @@ public class FrameBufferController {
         strip.setPixel(i, color);
       }
       strip.render();
-      patchArtNetData();
     }
+    patchArtNetData();
+
+    Thread.sleep(25);
+
   }
 }

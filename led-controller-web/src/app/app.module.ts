@@ -1,10 +1,11 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
+import {AppRoutingModule} from './app-routing.module';
+import {AppComponent} from './app.component';
 import {HttpClientModule} from "@angular/common/http";
-import {ColorSketchModule} from "ngx-color/sketch";
+import {FormsModule} from "@angular/forms";
+import {ColorPickerModule} from "ngx-color-picker";
 
 @NgModule({
   declarations: [
@@ -12,11 +13,13 @@ import {ColorSketchModule} from "ngx-color/sketch";
   ],
   imports: [
     BrowserModule,
+    ColorPickerModule,
     HttpClientModule,
-    ColorSketchModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

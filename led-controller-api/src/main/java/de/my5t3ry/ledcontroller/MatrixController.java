@@ -32,7 +32,7 @@ public class MatrixController {
 
   @PostConstruct
   @Async
-  public void init()  {
+  public void init() {
     strip = new Ws281xLedStrip(
         ledsCount,       // leds
         18,          // Using pin 10 to do SPI, which should allow non-sudo access
@@ -84,11 +84,11 @@ public class MatrixController {
 
   public void togglePower() {
     if (!power) {
-      strip.setBrightness(255);
-      power =true;
+      setControlEvent(new LedControlEvent("WHITE", 255));
+      power = true;
     } else {
-      strip.setBrightness(0);
-      power =true;
+      setControlEvent(new LedControlEvent("BLACK", 255));
+      power = true;
     }
     strip.render();
   }

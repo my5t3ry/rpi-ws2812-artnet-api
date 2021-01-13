@@ -35,9 +35,9 @@ public class FrameConsumer extends Thread {
         if (!frameBuffer.isEmpty()) {
           final byte[] curBuffer = frameBuffer.take();
           for (int i = 0; i < ledsCount; i++) {
-            final Color color = new Color(curBuffer[(i * 3) + 138] & 0xFF,
-                curBuffer[(i * 3) + 139] & 0xFF,
-                curBuffer[(i * 3) + 140] & 0xFF);
+            final Color color = new Color(curBuffer[(i * 3) + 0] & 0xFF,
+                curBuffer[(i * 3) + 1] & 0xFF,
+                curBuffer[(i * 3) + 2] & 0xFF);
             strip.setPixel(i, color);
           }
           strip.render();

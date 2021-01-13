@@ -20,7 +20,12 @@ public class ArtNetController {
         new ArtNetServerEventAdapter() {
           @Override
           public void artNetPacketReceived(ArtNetPacket packet) {
-            log.info(String.format("new packet received!['%s']", packet.toString()));
+            final byte[] data = packet.getData();
+            final int r = data[0] & 0xFF;
+            final int g = data[1] & 0xFF;
+            final int b = data[2] & 0xFF;
+
+            log.info(String.format("R: " +r + " Green: " +g+ " Blue: " +b));
           }
         });
 

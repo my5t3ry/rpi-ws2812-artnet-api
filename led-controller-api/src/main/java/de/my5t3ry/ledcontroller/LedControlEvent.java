@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LedControlEvent {
-
   private Color color;
   private Integer brightness;
 }

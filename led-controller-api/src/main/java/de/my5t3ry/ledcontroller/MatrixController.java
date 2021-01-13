@@ -1,17 +1,10 @@
 package de.my5t3ry.ledcontroller;
 
-import static java.util.stream.Collectors.toList;
-
 import com.github.mbelling.ws281x.Color;
 import com.github.mbelling.ws281x.LedStripType;
 import com.github.mbelling.ws281x.Ws281xLedStrip;
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-import java.util.Arrays;
-import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
-import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
@@ -46,36 +39,18 @@ public class MatrixController {
     );
     final FrameBufferDispatcher frameBufferDispatcher = new FrameBufferDispatcher(frameBuffer,
         strip);
-    setControlEvent(new LedControlEvent("WHITE", 255));
+    setControlEvent(new LedControlEvent(Color.WHITE, 255));
     frameBufferDispatcher.start();
   }
 
   public void setControlEvent(final LedControlEvent event) {
     for (int i = 0; i < ledsCount; i++) {
-      strip.setPixel(i, getStaticColorsForString(event.getColor()));
+      strip.setPixel(i, event.getColor());
     }
     strip.setBrightness(event.getBrightness());
     strip.render();
   }
 
-  public static Color getStaticColorsForString(final String color) {
-    final List<Field> colors = Arrays.stream(Color.class.getDeclaredFields()).filter(f ->
-        Modifier.isStatic(f.getModifiers())).collect(toList()).stream()
-        .filter(curColor -> curColor.getName().equals(color)).collect(
-            Collectors.toUnmodifiableList());
-    if (colors.size() != 1) {
-      throw new IllegalStateException(String
-          .format("Unexpected matching colors found for ['%s']. Found ['%s'], expected 1", color,
-              colors.size()));
-    }
-    try {
-      return (Color) colors.get(0).get(null);
-    } catch (IllegalAccessException e) {
-      throw new IllegalStateException(String
-          .format("Could not access field ['%s']. With msg ['%s']", colors.get(0).getName(),
-              e.getMessage()));
-    }
-  }
 
   public void addFrame(final byte[] frame) throws InterruptedException {
     frameBuffer.put(frame);
@@ -84,11 +59,11 @@ public class MatrixController {
 
   public void togglePower() {
     if (!power) {
-      setControlEvent(new LedControlEvent("WHITE", 255));
+      setControlEvent(new LedControlEvent(Color.WHITE, 255));
       power = true;
     } else {
-      setControlEvent(new LedControlEvent("BLACK", 255));
-      power = true;
+      setControlEvent(new LedControlEvent(Color.BLACK, 255));
+      power = false;
     }
     strip.render();
   }

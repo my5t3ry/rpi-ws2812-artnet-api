@@ -25,7 +25,7 @@ public class FrameBufferController {
 
   @PostConstruct
   @Async
-  public void init() {
+  public void init() throws InterruptedException {
     strip = new Ws281xLedStrip(
         ledsCount,       // leds
         18,          // Using pin 10 to do SPI, which should allow non-sudo access
@@ -38,6 +38,7 @@ public class FrameBufferController {
         false    // clear on exit
     );
     setControlEvent(new LedControlEvent("WHITE", 255));
+    patchArtNetData();
   }
 
 

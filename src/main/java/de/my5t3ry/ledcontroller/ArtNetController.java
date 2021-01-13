@@ -24,7 +24,7 @@ public class ArtNetController {
         new ArtNetServerEventAdapter() {
           @Override
           public void artNetPacketReceived(ArtNetPacket packet) {
-            log.info(String.format("package type {%s} ", packet.getType().name()));
+//            log.info(String.format("package type {%s} ", packet.getType().name()));
             frameBufferController.addFrame(packet.getData());
           }
         });
